@@ -6,13 +6,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import io.papermc.lib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 import org.bukkit.Server;
 import org.bukkit.World;
 
-import io.papermc.lib.PaperLib;
 
 import com.wimbli.WorldBorder.Events.WorldBorderFillFinishedEvent;
 import com.wimbli.WorldBorder.Events.WorldBorderFillStartEvent;

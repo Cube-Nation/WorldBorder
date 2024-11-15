@@ -1,30 +1,31 @@
 plugins {
     id("java-library")
     id("maven-publish")
-    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "com.wimbli.WorldBorder"
-version = "1.19"
+version = "1.19-CN"
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
     withSourcesJar()
 }
 
 repositories {
     mavenCentral()
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.mikeprimm.com/")
     maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://eldonexus.de/repository/maven-releases/")
 }
 
 dependencies {
-    compileOnly(group = "org.spigotmc", name = "spigot-api", version = "1.14-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     compileOnly(group = "us.dynmap", name = "dynmap-api", version = "3.1")
     implementation(group = "io.papermc", name = "paperlib", version = "1.0.8-SNAPSHOT")
+    compileOnly("com.github.yannicklamprecht:worldborderapi:1.211.0:dev")
 }
 
 defaultTasks("clean", "build")
@@ -39,20 +40,6 @@ tasks {
         filesMatching("plugin.yml") {
             expand(placeholders)
         }
-    }
-
-    jar {
-        archiveFileName.set("${project.name}-noshade.jar")
-    }
-
-    shadowJar {
-        minimize()
-        relocate("io.papermc.lib", "${project.group}.paperlib")
-        archiveFileName.set("${project.name}.jar")
-    }
-
-    build {
-        dependsOn(shadowJar)
     }
 }
 

@@ -126,6 +126,7 @@ public class BorderData
 	 * @deprecated  Replaced by {@link #getRadiusX()} and {@link #getRadiusZ()};
 	 * this method now returns an average of those two values and is thus imprecise
 	 */
+	@Deprecated
 	public int getRadius()
 	{
 		return (radiusX + radiusZ) / 2;  // average radius; not great, but probably best for backwards compatibility
@@ -308,7 +309,7 @@ public class BorderData
 		safeOpenBlocks.add(Material.DETECTOR_RAIL);
 		safeOpenBlocks.add(Material.ACTIVATOR_RAIL);
 		safeOpenBlocks.add(Material.COBWEB);
-		safeOpenBlocks.add(Material.GRASS);
+		safeOpenBlocks.add(Material.SHORT_GRASS);
 		safeOpenBlocks.add(Material.FERN);
 		safeOpenBlocks.add(Material.DEAD_BUSH);
 		safeOpenBlocks.add(Material.DANDELION);

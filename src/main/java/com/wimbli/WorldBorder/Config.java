@@ -75,6 +75,7 @@ public class Config
 			log("Border set. " + BorderDescription(world));
 		save(true);
 		DynMapFeatures.showBorder(world, border);
+		FakeBorderManager.instance().clearCache(world);
 	}
 	public static void setBorder(String world, BorderData border)
 	{
@@ -135,6 +136,8 @@ public class Config
 		log("Removed border for world \"" + world + "\".");
 		save(true);
 		DynMapFeatures.removeBorder(world);
+
+		FakeBorderManager.instance().clearCache(world);
 	}
 
 	public static void removeAllBorders()
@@ -143,6 +146,8 @@ public class Config
 		log("Removed all borders for all worlds.");
 		save(true);
 		DynMapFeatures.removeAllBorders();
+
+		FakeBorderManager.instance().clearCache();
 	}
 
 	public static String BorderDescription(String world)
@@ -208,6 +213,8 @@ public class Config
 		log("Set default border shape to " + (ShapeName()) + ".");
 		save(true);
 		DynMapFeatures.showAllBorders();
+
+		FakeBorderManager.instance().clearCache();
 	}
 
 	public static boolean ShapeRound()

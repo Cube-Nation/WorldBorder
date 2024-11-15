@@ -1,6 +1,8 @@
 package com.wimbli.WorldBorder;
 
+import com.github.yannicklamprecht.worldborder.api.WorldBorderApi;
 import org.bukkit.Location;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -10,6 +12,8 @@ public class WorldBorder extends JavaPlugin
 	public static volatile WBCommand wbCommand = null;
 	private BlockPlaceListener blockPlaceListener = null;
 	private MobSpawnListener mobSpawnListener = null;
+
+	private WorldBorderApi worldBorderApi;
 
 	@Override
 	public void onEnable()
@@ -37,6 +41,16 @@ public class WorldBorder extends JavaPlugin
 		// integrate with DynMap if it's available
 		DynMapFeatures.setup();
 
+		// integrate with WorldBorderApi if it's available
+		RegisteredServiceProvider<WorldBorderApi> apiProvider = plugin.getServer().getServicesManager().getRegistration(WorldBorderApi.class);
+		if (apiProvider != null) {
+			worldBorderApi = apiProvider.getProvider();
+			new FakeBorderManager(this);
+			getServer().getPluginManager().registerEvents(new FakeBorderListener(this), this);
+		} else {
+			plugin.getLogger().info("Vanilla WorldBorder API not found");
+		}
+
 		// Well I for one find this info useful, so...
 		Location spawn = getServer().getWorlds().get(0).getSpawnLocation();
 		Config.log("For reference, the main world's spawn location is at X: " + Config.coord.format(spawn.getX()) + " Y: " + Config.coord.format(spawn.getY()) + " Z: " + Config.coord.format(spawn.getZ()));
@@ -61,6 +75,7 @@ public class WorldBorder extends JavaPlugin
 	 * @deprecated  Replaced by {@link #getWorldBorder(String worldName)};
 	 * this method name starts with an uppercase letter, which it shouldn't
 	 */
+	@Deprecated
 	public BorderData GetWorldBorder(String worldName)
 	{
 		return getWorldBorder(worldName);
@@ -81,4 +96,9 @@ public class WorldBorder extends JavaPlugin
 		else if (mobSpawnListener != null)
 			mobSpawnListener.unregister();
 	}
+
+	public WorldBorderApi getWorldBorderApi() {
+		return worldBorderApi;
+	}
+
 }
